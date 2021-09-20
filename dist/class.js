@@ -52,7 +52,7 @@ accounting.printEmployeeInformation();
 //   }
 //   throw new Error('レポートが見つかりません。');
 // }
-console.log(accounting.mostRecentReport);
+// console.log(accounting.mostRecentReport);
 // セッター => 値を設定するメソッド
 // set mostRecentReport(value: string){
 //   if (!value) {
