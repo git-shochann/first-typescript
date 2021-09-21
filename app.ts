@@ -96,11 +96,59 @@ function useVehicle(vehicle: Vehicle) {
 useVehicle(v1);
 useVehicle(v2);
 
-// 判別されるunion型 => 楽に出来る
+// discriminated unions 判別されるunion型 => 楽に出来る
+
 interface Bird {
+  // literal型 => birdという文字を許容する
+  type: "bird";
   flyingSpeed: number;
 }
 
 interface House {
+  type: "horse";
   runningSpeed: number;
 }
+
+// union型
+type Animal = Bird | House;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+  switch (animal.type) {
+    case "bird":
+      speed = animal.flyingSpeed;
+      break;
+    case "horse":
+      speed = animal.runningSpeed;
+  }
+  console.log("移動速度: " + speed);
+}
+
+moveAnimal({ type: "bird", flyingSpeed: 100 });
+
+// TSはHTMLの中身まで確認できないので、HTMLElement or NULLかもしれない。
+// NULLは!にて絶対にNullではないと回避可能だがエラーは継続する
+// そのため、型キャストを使う => 確実な型宣言
+
+// const userInputElement = <HTMLTagElement>(
+//   document.getElementById("user-element")!
+// );
+
+// ReactならJSXと上記だと衝突してしまうのこの書き方でも可能
+const userInputElement = document.getElementById(
+  "user-element"
+)! as HTMLInputElement;
+
+userInputElement.value = "こんにちは";
+
+// プロパティを柔軟に定義する為にindex型を使う
+interface ErrorContainer {
+  // index型
+  // [名前: プロパティの型]: プロパティの値の型;
+  id: string;
+  [prop: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+  email: "正しいメアドではありません。",
+};
